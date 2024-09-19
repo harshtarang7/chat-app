@@ -19,10 +19,16 @@ const io = new Server(server,{
 
 // created circuit
 io.on("connection",(socket)=>{
-    console.log("user connected");
-    console.log("id",socket.id);
+    console.log("user connected",socket.id);
+   
+    socket.on("message",({room,message})=>{
+        console.log({room,message})
+        io.to(room).emit("receive-message",message)
+    })
     
-    socket.emit("welcome","aavo sa")
+   socket.on("disconnect",()=>{
+    console.log("user disconnected", socket.id)
+   })
 })
 
 app.use(cors)
