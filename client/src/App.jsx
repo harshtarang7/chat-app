@@ -3,7 +3,9 @@ import {io} from 'socket.io-client'
 import {Container, Typography,Button, TextField, Stack} from "@mui/material"
 
 const App = () => {
-  const socket = useMemo(()=> io("http://localhost:3000"),[]);
+  const socket = useMemo(()=> io("http://localhost:3000",{
+    withCredentials:true
+  }),[]);
 
   const [message,setMessage]= useState('');
   const [room,setRoom]= useState('');
