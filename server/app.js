@@ -2,6 +2,11 @@ import express from 'express'
 import { Server } from 'socket.io';
 import {createServer} from 'http';
 import cors from 'cors';
+import jwt from 'jsonwebtoken';
+import { jwtutils } from './utils/jwt.utils';
+
+
+dotenv.config();
 
 const port = 3000;
 
@@ -17,18 +22,24 @@ const io = new Server(server,{
     }
 });
 
+app.use(jwtutils)
 // created circuit
 io.on("connection",(socket)=>{
     console.log("user connected",socket.id);
    
     socket.on("message",({room,message})=>{
         console.log({room,message})
-        io.to(room).emit("receive-message",message)
-    })
+        socket.to(room).emit("receive-message",message)
+    });
+
+    socket.on('join-room',(room)=>{
+        socket.join(room);
+    });
+
     
    socket.on("disconnect",()=>{
     console.log("user disconnected", socket.id)
-   })
+   });
 })
 
 app.use(cors)
