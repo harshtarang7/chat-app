@@ -2,11 +2,8 @@ import express from 'express'
 import { Server } from 'socket.io';
 import {createServer} from 'http';
 import cors from 'cors';
-import jwt from 'jsonwebtoken';
-import { jwtutils } from './utils/jwt.utils';
+import { jwtutils } from './utils/jwt.utils.js';
 
-
-dotenv.config();
 
 const port = 3000;
 
